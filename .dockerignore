@@ -1,0 +1,45 @@
+# Git
+.git/
+.gitignore
+
+# DVC
+.dvc/
+.dvcignore
+
+# Environnements virtuels
+venv/
+venv_clean/
+__pycache__/
+*.pyc
+
+# Tests et coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.xml
+
+# Rapports et logs
+reports/figures/*.png
+reports/metrics/
+*.log
+
+# Monitoring (garder en local)
+monitoring/
+src/monitoring/prometheus-*
+src/monitoring/grafana-*
+
+# Notebooks
+notebooks/
+.ipynb_checkpoints/
+
+# Dossiers de données brutes (ne pas inclure dans l'image)
+data/raw/
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.orig
+
+# OS
+.DS_Store
+Thumbs.db

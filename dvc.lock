@@ -1,0 +1,210 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: py src/module_1_pretraitement/preprocessing.py
+    deps:
+    - path: data/raw/dataset_ProjetML_2026.csv
+      hash: md5
+      md5: ebca3e2a097a475cee3af2c152e90164
+      size: 2586532
+    - path: src/module_1_pretraitement/preprocessing.py
+      hash: md5
+      md5: 946a24159b8688c75abbe1e971aa5f20
+      size: 38169
+    outs:
+    - path: data/processed/clean_data.csv
+      hash: md5
+      md5: 0f30a37bf9022668dd4b54699c567bb8
+      size: 2714864
+    - path: data/processed/label_encoder.pkl
+      hash: md5
+      md5: 7dabc0912c537f7b669bbb51f59f01dc
+      size: 572
+    - path: data/processed/onehot_encoder.pkl
+      hash: md5
+      md5: 16f18a766682766c77023e3452267686
+      size: 1144
+    - path: data/processed/scaler.pkl
+      hash: md5
+      md5: 3ec7e1dc398fe45798366d2635a4fa41
+      size: 1111
+  clustering:
+    cmd: py src/module_3_clustering/cluster_analysis.py
+    deps:
+    - path: data/processed/clean_data.csv
+      hash: md5
+      md5: 0f30a37bf9022668dd4b54699c567bb8
+      size: 2714864
+    - path: data/processed/onehot_encoder.pkl
+      hash: md5
+      md5: 16f18a766682766c77023e3452267686
+      size: 1144
+    - path: data/processed/scaler.pkl
+      hash: md5
+      md5: 3ec7e1dc398fe45798366d2635a4fa41
+      size: 1111
+    - path: src/module_3_clustering/cluster_analysis.py
+      hash: md5
+      md5: ed1bc3fa1c14c14e1f6d25d8953a3ca8
+      size: 7746
+    outs:
+    - path: data/processed/clean_data_with_clusters.csv
+      hash: md5
+      md5: e42cae252ac6c066c3800f4349e95260
+      size: 689951
+    - path: reports/figures/fig08_elbow_method.png
+      hash: md5
+      md5: dc45c77d5903db152c63f74d07b6717a
+      size: 48832
+    - path: reports/figures/fig9_pca_clusters.png
+      hash: md5
+      md5: ac1d2f70472295528d785570c5f1cec5
+      size: 155944
+  modeling:
+    cmd: py src/module_2_class_reg/train_models.py
+    deps:
+    - path: data/processed/clean_data.csv
+      hash: md5
+      md5: 0f30a37bf9022668dd4b54699c567bb8
+      size: 2714864
+    - path: data/processed/label_encoder.pkl
+      hash: md5
+      md5: 7dabc0912c537f7b669bbb51f59f01dc
+      size: 572
+    - path: data/processed/onehot_encoder.pkl
+      hash: md5
+      md5: 16f18a766682766c77023e3452267686
+      size: 1144
+    - path: data/processed/scaler.pkl
+      hash: md5
+      md5: 3ec7e1dc398fe45798366d2635a4fa41
+      size: 1111
+    - path: src/module_2_class_reg/train_models.py
+      hash: md5
+      md5: 58c5d425d1b605ef3fa1e4bd06c26ca9
+      size: 17000
+    outs:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: 2fedb26b2b9ad36b5b04a64e5554ceb8
+      size: 178349
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: 6d49f8f303fe4bd55b5ef5d52c55801d
+      size: 831586
+    - path: data/processed/X_val.csv
+      hash: md5
+      md5: 90f5436ba54c7f91f6d06a8f759f97d4
+      size: 178317
+    - path: data/processed/test_features.csv
+      hash: md5
+      md5: 2fedb26b2b9ad36b5b04a64e5554ceb8
+      size: 178349
+    - path: data/processed/train_features.csv
+      hash: md5
+      md5: 6d49f8f303fe4bd55b5ef5d52c55801d
+      size: 831586
+    - path: data/processed/y_test.npy
+      hash: md5
+      md5: 818ea00302c0775dc6d8017e4e4656bc
+      size: 6120
+    - path: data/processed/y_train.npy
+      hash: md5
+      md5: dd251369638fdb84f7c29e7cb16f16b8
+      size: 28088
+    - path: data/processed/y_val.npy
+      hash: md5
+      md5: 383d521198cdfd2d0fc403922e3edcb2
+      size: 6120
+    - path: models/best_classifier.pkl
+      hash: md5
+      md5: 6a046d55754999dcc270c41432d4b14c
+      size: 319001
+    - path: models/best_regressor.pkl
+      hash: md5
+      md5: 0b2bde8d395e434e3ebae509bebaac91
+      size: 6698625
+    - path: models/num_feature_names.pkl
+      hash: md5
+      md5: 0a232aa0822a754e786508709d84f61e
+      size: 203
+    - path: reports/figures/confusion_matrix.png
+      hash: md5
+      md5: 05b0cfa39d277c651c22e9eb8cd5b06e
+      size: 37905
+    - path: reports/figures/shap_importance.png
+      hash: md5
+      md5: 594ea4d12998bfffb08a5b2b4a197132
+      size: 40654
+  multimodal:
+    cmd: py src/module_5_multimodal/fusion_pipeline.py
+    deps:
+    - path: data/processed/clean_data.csv
+      hash: md5
+      md5: 0f30a37bf9022668dd4b54699c567bb8
+      size: 2714864
+    - path: data/processed/onehot_encoder.pkl
+      hash: md5
+      md5: 16f18a766682766c77023e3452267686
+      size: 1144
+    - path: data/processed/scaler.pkl
+      hash: md5
+      md5: 3ec7e1dc398fe45798366d2635a4fa41
+      size: 1111
+    - path: models/nlp/tfidf_vectorizer.pkl
+      hash: md5
+      md5: 40dd7a00f425d87230f0b0f97a43faaa
+      size: 178312
+    - path: src/module_5_multimodal/fusion_pipeline.py
+      hash: md5
+      md5: 88e23eacf2aca36ce7bfb361859ef4a6
+      size: 9724
+    outs:
+    - path: models/multimodal_classifier.pkl
+      hash: md5
+      md5: fb4a880e2fdd5a4162383ff74a16acf7
+      size: 1842441
+  drift:
+    cmd: py src/monitoring/drift_detection.py
+    deps:
+    - path: data/processed/test_features.csv
+      hash: md5
+      md5: 2fedb26b2b9ad36b5b04a64e5554ceb8
+      size: 178349
+    - path: data/processed/train_features.csv
+      hash: md5
+      md5: 6d49f8f303fe4bd55b5ef5d52c55801d
+      size: 831586
+    - path: src/monitoring/drift_detection.py
+      hash: md5
+      md5: ecaa497ba074594c53141826b794592e
+      size: 1629
+    outs:
+    - path: reports/drift_report.html
+      hash: md5
+      md5: 1c376e18098558f6ceed492b72cf23fe
+      size: 3840787
+  nlp:
+    cmd: py src/module_4_NLP/text_classifier.py
+    deps:
+    - path: data/processed/clean_data.csv
+      hash: md5
+      md5: 0f30a37bf9022668dd4b54699c567bb8
+      size: 2714864
+    - path: src/module_4_NLP/text_classifier.py
+      hash: md5
+      md5: d0bc29a92d477787175f7d76aaabac06
+      size: 20775
+    outs:
+    - path: models/nlp/best_nlp_classifier.pkl
+      hash: md5
+      md5: ad2a8c8c1517d5a07a11d23e3be25214
+      size: 160755
+    - path: models/nlp/tfidf_vectorizer.pkl
+      hash: md5
+      md5: 40dd7a00f425d87230f0b0f97a43faaa
+      size: 178312
+    - path: reports/figures/fig11_nlp_comparison.png
+      hash: md5
+      md5: c791e6dab352291116bffcc3dcf59d42
+      size: 56451

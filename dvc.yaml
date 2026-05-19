@@ -1,0 +1,74 @@
+stages:
+  preprocess:
+    cmd: py src/module_1_pretraitement/preprocessing.py
+    deps:
+    - src/module_1_pretraitement/preprocessing.py
+    - data/raw/dataset_ProjetML_2026.csv
+    outs:
+    - data/processed/clean_data.csv
+    - data/processed/scaler.pkl
+    - data/processed/onehot_encoder.pkl
+    - data/processed/label_encoder.pkl
+
+  modeling:
+    cmd: py src/module_2_class_reg/train_models.py
+    deps:
+    - src/module_2_class_reg/train_models.py
+    - data/processed/clean_data.csv
+    - data/processed/scaler.pkl
+    - data/processed/onehot_encoder.pkl
+    - data/processed/label_encoder.pkl
+    outs:
+    - models/best_classifier.pkl
+    - models/best_regressor.pkl
+    - models/num_feature_names.pkl
+    - reports/figures/confusion_matrix.png
+    - reports/figures/shap_importance.png
+    - data/processed/X_train.csv
+    - data/processed/X_val.csv
+    - data/processed/X_test.csv
+    - data/processed/y_train.npy
+    - data/processed/y_val.npy
+    - data/processed/y_test.npy
+    - data/processed/train_features.csv
+    - data/processed/test_features.csv
+
+  clustering:
+    cmd: py src/module_3_clustering/cluster_analysis.py
+    deps:
+    - src/module_3_clustering/cluster_analysis.py
+    - data/processed/clean_data.csv
+    - data/processed/scaler.pkl
+    - data/processed/onehot_encoder.pkl
+    outs:
+    - data/processed/clean_data_with_clusters.csv
+    - reports/figures/fig08_elbow_method.png
+    - reports/figures/fig9_pca_clusters.png
+  nlp:
+      cmd: py src/module_4_NLP/text_classifier.py
+      deps:
+        - src/module_4_NLP/text_classifier.py
+        - data/processed/clean_data.csv
+      outs:
+        - models/nlp/tfidf_vectorizer.pkl
+        - models/nlp/best_nlp_classifier.pkl
+        - reports/figures/fig11_nlp_comparison.png
+  multimodal:
+    cmd: py src/module_5_multimodal/fusion_pipeline.py
+    deps:
+    - src/module_5_multimodal/fusion_pipeline.py
+    - data/processed/clean_data.csv
+    - data/processed/scaler.pkl
+    - data/processed/onehot_encoder.pkl
+    - models/nlp/tfidf_vectorizer.pkl
+    outs:
+    - models/multimodal_classifier.pkl
+
+  drift:
+    cmd: py src/monitoring/drift_detection.py
+    deps:
+    - src/monitoring/drift_detection.py
+    - data/processed/train_features.csv
+    - data/processed/test_features.csv
+    outs:
+    - reports/drift_report.html
